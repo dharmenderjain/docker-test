@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: client.yml
+    container_name: test_client
+    command: /client test_server
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: .
+      dockerfile: server.yml
+    container_name: test_server
+    command: /server
