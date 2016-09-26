@@ -1,7 +1,5 @@
 FROM ubuntu
 
-COPY server /
-
 WORKDIR /
 
 ADD server /server
