@@ -1,0 +1,13 @@
+FROM ubuntu
+
+COPY server /
+
+WORKDIR /
+
+ADD server /server
+
+ADD test /test
+
+ADD test.sh /test.sh
+
+CMD ["bash", "test.sh"]
