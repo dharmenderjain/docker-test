@@ -1,5 +1,4 @@
 #!/bin/bash
-exit 1
 /server &
 /test localhost
 if [ !$? ]; then
