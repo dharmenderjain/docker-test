@@ -21,17 +21,15 @@ int main(int argc, char *argv[])
     {
         printf("\n Usage: %s <ip of server> \n",argv[0]);
         return 1;
-    } 
-
-    //printf("IP address = %s\n", inet_ntoa(*(long*)host->h_addr_list[0]));
+    }
+    FILE *f = fopen("/tmp/client.log", "w");
+    if (f == NULL)
+    {
+        printf("Error opening file!\n");
+    	exit(1);
+    }
 
     memset(recvBuff, '0',sizeof(recvBuff));
-    /*if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-    {
-        printf("\n Error : Could not create socket \n");
-        return 1;
-    }*/ 
-
     memset(&serv_addr, '0', sizeof(serv_addr)); 
 
     serv_addr.sin_family = AF_INET;
@@ -48,27 +46,27 @@ int main(int argc, char *argv[])
     while(1) {
         if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
         {
-            printf("\n Error : Could not create socket \n");
+            fprintf(f,"\n Error : Could not create socket \n");
             return 1;
         } 
         if( connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
         {
-           printf("\n Error : Connect Failed \n");
+           fprintf(f,"\n Error : Connect Failed \n");
            return 1;
         } 
     
         while ( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0)
         {
             recvBuff[n] = 0;
-            if(fputs(recvBuff, stdout) == EOF)
+            if(fputs(recvBuff, f) == EOF)
             {
-                printf("\n Error : Fputs error\n");
+                fprintf(f,"\n Error : Fputs error\n");
             }
         } 
     
         if(n < 0)
         {
-            printf("\n Read error \n");
+            fprintf(f,"\n Read error \n");
         } 
 	close(sockfd);
         sleep(5);
