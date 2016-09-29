@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
         printf("\n Usage: %s <ip of server> \n",argv[0]);
         return 1;
     }
-    FILE *f = fopen("/tmp/client.log", "w");
+    FILE *f = fopen("/tmp/client.log", "w+");
     if (f == NULL)
     {
         printf("Error opening file!\n");
@@ -58,10 +58,11 @@ int main(int argc, char *argv[])
         while ( (n = read(sockfd, recvBuff, sizeof(recvBuff)-1)) > 0)
         {
             recvBuff[n] = 0;
-            if(fputs(recvBuff, f) == EOF)
+            if(fputs(recvBuff,f) == EOF)
             {
                 fprintf(f,"\n Error : Fputs error\n");
             }
+	   fflush(f);
         } 
     
         if(n < 0)
